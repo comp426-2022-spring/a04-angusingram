@@ -74,7 +74,7 @@ app.use( (req, res, next) => {
 });
 
 
-// READ a list of users (HTTP method GET) at endpoint /app/users/
+
 if (args['debug'] == true) {
   app.get("/app/log/access", (req, res) => {	
     try {
@@ -86,7 +86,7 @@ if (args['debug'] == true) {
 });
 
 app.get("/app/error", (req, res) => {	
-  res.status(1).json("Error test successful") 
+  throw new Error('Error test successful')
 });
 
 }
@@ -96,10 +96,9 @@ if (args['log'] == true) {
 
 // Use morgan for logging to files
 // Create a write stream to append (flags: 'a') to a file
-fs.writeFile('access.log', "")
-const WRITESTREAM = fs.createWriteStream('./access.log', { flags: 'a' })
+const WRITESTREAM = fs.createWriteStream('access.log', { flags: 'a' })
 // Set up the access logging middleware
-app.use(morgan('FORMAT', { stream: WRITESTREAM }))
+app.use(morgan('combined', { stream: WRITESTREAM }))
 
 
 }
